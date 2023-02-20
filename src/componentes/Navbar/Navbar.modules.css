@@ -1,0 +1,33 @@
+.navbarContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    85deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(22, 130, 177, 1) 14%,
+    rgba(9, 83, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+.menuLogo {
+  padding: 0.5rem;
+  width: 70%;
+}
+.menu {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  padding: 0.5rem;
+  color: black;
+  font-weight: 900;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu:hover {
+  color: whitesmoke;
+}
