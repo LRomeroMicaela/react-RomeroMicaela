@@ -1,17 +1,17 @@
 import React from "react";
 import logo from "../../imagenes/logo_chico.jpg";
 import Cartwidget from "../CartWidget/Cartwidget";
-import "./Navbar.modules.css";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbarContainer">
-      <div className="menuLogo">
+    <nav className={styles.navbarContainer}>
+      <div className={styles.menuLogo}>
         <img src={logo} />
       </div>
-      <a className="menu">Carrito</a>
-      <a className="menu">Ubicación</a>
-      <div className="cartIcon">
+      <a className={styles.menu}>Carrito</a>
+      <a className={styles.menu}>Ubicación</a>
+      <div className={styles.cartIcon}>
         <Cartwidget />
       </div>
     </nav>
