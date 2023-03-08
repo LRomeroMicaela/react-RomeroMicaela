@@ -4,6 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Link } from "react-router-dom";
+import styles from "./Item.module.css";
 
 const Item = ({ elemento }) => {
   return (
@@ -16,18 +18,26 @@ const Item = ({ elemento }) => {
           alt={elemento.nombre}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
+          <Typography
+            sx={{ fontSize: 15 }}
+            color="text.secondary"
+            gutterBottom
+            variant="h2"
+            component="div"
+          >
+            {elemento.nombre}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            '{elemento.nombre} {elemento.marca} {elemento.modelo}'
+          <Typography variant="h6" color="text.secondary">
+            {elemento.marca}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
+        <Link to="/item">
+          <Button variant="outlined" size="small" color="primary">
+            Detalle del producto
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

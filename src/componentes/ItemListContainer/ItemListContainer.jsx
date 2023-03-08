@@ -22,7 +22,6 @@ const ItemListContainer = ({ mensaje }) => {
   }, []);
   return (
     <div>
-      <h2 className={styles.mensajeEstilo}>{mensaje}</h2>
       <ItemList items={items} />
     </div>
   );
