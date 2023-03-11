@@ -6,7 +6,7 @@ const Cartwidget = () => {
   return (
     <Link to="/cart">
       <div className="cartIcon">
-        <span>0</span>
+        <span style={{ textDecoration: "none" }}>0</span>
         <BsBagCheckFill size="30px" />
       </div>
     </Link>
@@ -14,3 +14,5 @@ const Cartwidget = () => {
 };
 
 export default Cartwidget;
+
+//no me funciona el textdecoration none

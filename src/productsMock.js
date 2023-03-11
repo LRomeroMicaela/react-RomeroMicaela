@@ -4,6 +4,7 @@ export const products = [
   {
     id: 100,
     nombre: "Armazón",
+    category: "armazon",
     marca: "Bless",
     modelo: "Aviador",
     color: "Negro",
@@ -14,6 +15,7 @@ export const products = [
   {
     id: 101,
     nombre: "Lentes de Sol",
+    category: "lente",
     marca: "Davor",
     modelo: "Envolvente",
     color: "Negro",
@@ -24,6 +26,7 @@ export const products = [
   {
     id: 102,
     nombre: "Armazón",
+    category: "armazon",
     marca: "Bless",
     modelo: "Hexagonal",
     color: "Dos colores",
@@ -34,6 +37,7 @@ export const products = [
   {
     id: 103,
     nombre: "Armazón",
+    category: "armazon",
     marca: "Bless",
     modelo: "Pin Up",
     color: "Dorado y Negro",
@@ -44,6 +48,7 @@ export const products = [
   {
     id: 104,
     nombre: "Lentes de Sol",
+    category: "lente",
     marca: "Mildura",
     modelo: "Pin Up",
     color: "Dorado y Rosa",
@@ -54,6 +59,7 @@ export const products = [
   {
     id: 105,
     nombre: "Lentes de Sol",
+    category: "lente",
     marca: "Muzik",
     modelo: "Wayfarer",
     color: "Negro",

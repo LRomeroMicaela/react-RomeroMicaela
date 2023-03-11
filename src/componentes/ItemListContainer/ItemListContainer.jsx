@@ -1,27 +1,31 @@
 import { useState, useEffect } from "react";
 import { products } from "../../productsMock";
-import styles from "./ItemListContainer.module.css";
+import { useParams } from "react-router-dom";
 import ItemList from "../ItemList/ItemList";
+import styles from "./ItemListContainer.module.css";
 
-const ItemListContainer = ({ mensaje }) => {
+const ItemListContainer = () => {
+  const { id } = useParams();
   const [items, setItems] = useState([]);
-  //items donde se guarda productos, setItems es la funcion que se usa para guardar los productos en items
+
+  const productosFiltrados = products.filter(
+    (elemento) => elemento.category === id
+  );
+  console.log(id);
+  console.log(productosFiltrados);
   useEffect(() => {
-    const listaProductos = new Promise((resolve, reject) => {
-      resolve(products);
+    const productoLista = new Promise((resolve, reject) => {
+      resolve(id ? productosFiltrados : products);
     });
 
-    listaProductos.then((ok) => {
+    productoLista.then((ok) => {
       setItems(ok);
     });
-    listaProductos.catch((error) => {
-      console.log(error);
-    });
-    //acá se resuelve con ok(guardando los producto en el arreglo items)
-    // o se ejecuta el error si no se puede resolver la promesa
-  }, []);
+    productoLista.catch((error) => console.log(error));
+  }, [id]);
+
   return (
-    <div>
+    <div className={styles.contenido}>
       <ItemList items={items} />
     </div>
   );
@@ -31,3 +35,6 @@ export default ItemListContainer;
 
 //se importa itemList dentro del return
 //me falta setTimeOut de 2 segundos... ver!
+//con useParams recuperamos la parte dinámica de cada ruta /category
+//en el id va a venir la info que necesitamos, si es lentes de sol o armazon
+//cada vez que cambie el id se va a volver a renderizar el itemlistcontainer

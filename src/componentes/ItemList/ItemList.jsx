@@ -1,9 +1,10 @@
 import React from "react";
 import Item from "../Item/Item";
+import styles from "./ItemList.module.css";
 
 const ItemList = ({ items }) => {
   return (
-    <div>
+    <div className={styles.contenedor}>
       {items.map((elemento) => {
         return <Item key={elemento.id} elemento={elemento} />;
       })}

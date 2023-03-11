@@ -12,8 +12,15 @@ const Navbar = () => {
           <img src={logo} />
         </div>
       </Link>
-      <a className={styles.menu}>Carrito</a>
-      <a className={styles.menu}>Ubicación</a>
+      <Link to="/category/lente" className={styles.menu}>
+        Lentes de Sol
+      </Link>
+      <Link to="/category/armazon" className={styles.menu}>
+        Armazón
+      </Link>
+      <Link to="/" className={styles.menu}>
+        Todas
+      </Link>
       <div className={styles.cartIcon}>
         <Cartwidget />
       </div>
