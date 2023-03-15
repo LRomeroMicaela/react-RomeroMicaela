@@ -11,8 +11,7 @@ const ItemListContainer = () => {
   const productosFiltrados = products.filter(
     (elemento) => elemento.category === id
   );
-  console.log(id);
-  console.log(productosFiltrados);
+
   useEffect(() => {
     const productoLista = new Promise((resolve, reject) => {
       resolve(id ? productosFiltrados : products);
