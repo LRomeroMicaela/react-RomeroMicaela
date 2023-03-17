@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../../productsMock";
 
@@ -11,18 +12,38 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
 import styles from "./ItemDetailContainer.module.css";
+import { CartContext } from "../../Context/CartContext";
+import { PermDeviceInformationOutlined } from "@mui/icons-material";
 
 const ItemDetailContainer = () => {
   const { id } = useParams();
+  const [items, setItems] = useState();
+
+  const { agregarAlCarrito } = useContext(CartContext);
 
   const productoSeleccionado = products.find(
     (element) => element.id === Number(id)
   );
-  console.log(id);
+
+  useEffect(() => {
+    const productSelected = new Promise((resolve, reject) => {
+      resolve(id ? productoSeleccionado : products);
+    });
+
+    productSelected.then((ok) => {
+      setItems(ok);
+    });
+    productSelected.catch((error) => console.log(error));
+  }, [id]);
 
   const onAdd = (cantidad) => {
-    console.log(`${cantidad} productos fueron agregados al carrito.`);
+    let producto = {
+      ...productoSeleccionado,
+      quantity: cantidad,
+    };
+    agregarAlCarrito(producto);
   };
+
   return (
     <div className={styles.contenedorTotal}>
       <Card sx={{ maxWidth: 345 }}>

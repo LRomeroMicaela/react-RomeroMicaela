@@ -18,8 +18,6 @@ const ItemCount = ({ stock, inicial = 1, onAdd }) => {
     }
   };
 
-  console.log(contador);
-
   return (
     <div>
       <div className={styles.botonesContador}>

@@ -4,7 +4,7 @@ import Cartwidget from "../CartWidget/Cartwidget";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ children }) => {
   return (
     <nav className={styles.navbarContainer}>
       <Link to="/">
@@ -24,6 +24,7 @@ const Navbar = () => {
       <div className={styles.cartIcon}>
         <Cartwidget />
       </div>
+      {children}
     </nav>
   );
 };
