@@ -15,26 +15,16 @@ import styles from "./ItemDetailContainer.module.css";
 import { CartContext } from "../../Context/CartContext";
 import { PermDeviceInformationOutlined } from "@mui/icons-material";
 
+import Swal from "sweetalert2";
+
 const ItemDetailContainer = () => {
   const { id } = useParams();
-  const [items, setItems] = useState();
 
-  const { agregarAlCarrito } = useContext(CartContext);
+  const { agregarAlCarrito, getQuantityById } = useContext(CartContext);
 
   const productoSeleccionado = products.find(
     (element) => element.id === Number(id)
   );
-
-  useEffect(() => {
-    const productSelected = new Promise((resolve, reject) => {
-      resolve(id ? productoSeleccionado : products);
-    });
-
-    productSelected.then((ok) => {
-      setItems(ok);
-    });
-    productSelected.catch((error) => console.log(error));
-  }, [id]);
 
   const onAdd = (cantidad) => {
     let producto = {
@@ -42,7 +32,16 @@ const ItemDetailContainer = () => {
       quantity: cantidad,
     };
     agregarAlCarrito(producto);
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Producto agregado al carrito correctamente",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
+
+  const cantSeleccionada = getQuantityById(Number(id));
 
   return (
     <div className={styles.contenedorTotal}>
@@ -52,19 +51,25 @@ const ItemDetailContainer = () => {
             component="img"
             height="250"
             image={productoSeleccionado.img}
-            alt={productoSeleccionado.nombre}
+            alt={JSON.stringify(productoSeleccionado.nombre)}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {productoSeleccionado.nombre}
+              {JSON.stringify(productoSeleccionado.nombre)}
             </Typography>
             <Typography variant="h6" color="text.secondary">
-              Descripción: {productoSeleccionado.modelo}{" "}
-              {productoSeleccionado.marca}
+              Descripción: {JSON.stringify(productoSeleccionado.modelo)}{" "}
+              {JSON.stringify(productoSeleccionado.marca)}
+              {" $ "}
+              {JSON.stringify(productoSeleccionado.precio)}
             </Typography>
           </CardContent>
-          <ItemCount stock={productoSeleccionado.stock} onAdd={onAdd} />
         </CardActionArea>
+        <ItemCount
+          stock={productoSeleccionado.stock}
+          onAdd={onAdd}
+          inicial={cantSeleccionada}
+        />
       </Card>
     </div>
   );

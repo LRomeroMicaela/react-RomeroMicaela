@@ -2,7 +2,16 @@ import { useState, useEffect } from "react";
 import { products } from "../../productsMock";
 import { useParams } from "react-router-dom";
 import ItemList from "../ItemList/ItemList";
+import FadeLoader from "react-spinners/FadeLoader";
 import styles from "./ItemListContainer.module.css";
+
+import { collection, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+};
 
 const ItemListContainer = () => {
   const { id } = useParams();
@@ -13,19 +22,45 @@ const ItemListContainer = () => {
   );
 
   useEffect(() => {
-    const productoLista = new Promise((resolve, reject) => {
-      resolve(id ? productosFiltrados : products);
-    });
+    // const productoLista = new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve(id ? productosFiltrados : products);
+    //   }, 2000);
+    // });
 
-    productoLista.then((ok) => {
-      setItems(ok);
+    // productoLista.then((ok) => {
+    //   setItems(ok);
+    // });
+    // productoLista.catch((error) => console.log(error));
+    const itemsCollection = collection(db, "products");
+    getDoc(itemsCollection).then((ok) => {
+      let products = ok.docs.map((element) => {
+        return {
+          ...element.data(),
+          id: element.id,
+        };
+      });
     });
-    productoLista.catch((error) => console.log(error));
   }, [id]);
+
+  //renderización
 
   return (
     <div className={styles.contenido}>
-      <ItemList items={items} />
+      {items.length > 0 ? (
+        <ItemList items={items} />
+      ) : (
+        <div>
+          <FadeLoader
+            color={"blue"}
+            // //loading={loading}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />{" "}
+        </div>
+      )}
     </div>
   );
 };
