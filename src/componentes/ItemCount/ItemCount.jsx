@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useState } from "react";
 
@@ -7,6 +7,9 @@ import styles from "./ItemCount.module.css";
 const ItemCount = ({ stock, inicial = 1, onAdd }) => {
   const [contador, setContador] = useState(inicial);
 
+  useEffect(() => {
+    setContador(inicial);
+  }, [inicial]);
   const sumar = () => {
     if (contador < stock) {
       setContador(contador + 1);
