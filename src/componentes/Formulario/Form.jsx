@@ -1,23 +1,62 @@
+import { Button } from "@mui/material";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Form = () => {
+import { addDoc, collection, updateDoc, doc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+
+import Swal from "sweetalert2";
+
+const Form = ({ cart, obtenerTotalPrecio, limpiarCarrito }) => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    password: "",
+    telefono: "",
   });
-
+  const [ordenId, setOrdenId] = useState("");
   const [error, setError] = useState(false);
-  const [msj, setMsj] = useState("");
+  const [msj, setMsj] = useState(null);
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
-    }); //name es name, email y password, según el que se setee va a ser el que se complete del arreglo
+    }); //name es name, email y teléfono, según el que se setee va a ser el que se complete del arreglo
+  };
+
+  //id COMPRA
+  const compraId = () => {
+    ordenId.length > 0 ? (
+      Swal.fire(
+        "Su compra ha finalizado con éxito. El número de orden es: " +
+          JSON.stringify(ordenId)
+      )
+    ) : (
+      <h3>
+        No se ha cargado correctamente el número de orden, por favor vuelva a
+        cargar sus datos
+      </h3>
+    );
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    let order = {
+      buyer: userData,
+      items: cart,
+      total: obtenerTotalPrecio(),
+    };
+
+    let orderCollection = collection(db, "ordenesCompra");
+    addDoc(orderCollection, order).then((ok) => {
+      setOrdenId(ok.id);
+      limpiarCarrito();
+    });
+    addDoc(orderCollection, order).catch((error) => console.log(error));
+
+    cart.map((producto) => {
+      let referenciaDoc = doc(db, "products", producto.id);
+      updateDoc(referenciaDoc, { stock: producto.stock - producto.quantity });
+    });
 
     //Validaciones del formulario
     if (userData.name.length < 5) {
@@ -33,12 +72,12 @@ const Form = () => {
       return;
     }
 
-    const passwSpace = userData.password.trim(); //compara si hay espacios en blanco
-    const passwIsValid = userData.password === passwSpace; //devuelve un booleano
-    if (!passwIsValid || userData.password.length < 5) {
+    const phoneSpace = userData.telefono.trim(); //compara si hay espacios en blanco
+    const phoneIsValid = userData.telefono === phoneSpace; //devuelve un booleano
+    if (!phoneIsValid || userData.telefono.length < 10) {
       setError(true);
       setMsj(
-        "La contraseña no debe tener espacios en blanco ni ser menor a 5 carácteres"
+        "El teléfono no debe tener espacios en blanco ni ser menor a 10 carácteres"
       );
       return;
     }
@@ -61,11 +100,14 @@ const Form = () => {
         <input
           type="text"
           placeholder=" Ingrese la contraseña"
-          name="password"
+          name="telefono"
           onChange={handleChange}
         />
-        <button type="submit">Enviar</button>
+        <Button type="submit" onClick={compraId()}>
+          Comprar
+        </Button>
       </form>
+      <Link to="/">Seguir Comprando</Link>
       {error && <h1>{msj}</h1>}
     </div>
   );

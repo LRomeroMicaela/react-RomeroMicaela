@@ -55,7 +55,6 @@ const ItemListContainer = () => {
         <div>
           <FadeLoader
             color={"blue"}
-            // //loading={loading}
             cssOverride={override}
             size={150}
             aria-label="Loading Spinner"

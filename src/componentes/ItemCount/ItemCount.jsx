@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import styles from "./ItemCount.module.css";
 
-const ItemCount = ({ stock, inicial = 1, onAdd }) => {
+const ItemCount = ({ stock, inicial = 0, onAdd }) => {
   const [contador, setContador] = useState(inicial);
 
   useEffect(() => {

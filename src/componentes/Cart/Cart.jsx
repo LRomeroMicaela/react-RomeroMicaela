@@ -1,6 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+
 import { Button } from "@mui/material";
+
 import { CartContext } from "../../Context/CartContext";
+
+import Form from "../Formulario/Form";
+
 import Swal from "sweetalert2";
 
 const Cart = () => {
@@ -25,27 +30,58 @@ const Cart = () => {
     });
   };
 
+  const [mostrarFinalizarCompra, setMostrarFinalizarCompra] = useState(false);
+
+  //renderización
+
   return (
     <div>
-      {cart.map((elemento) => {
-        return (
-          <div key={elemento.id}>
-            <h2>{elemento.nombre}</h2>
-            <h2>{elemento.marca}</h2>
-            <h3>{elemento.modelo}</h3>
-            <img src={elemento.img} alt="" />
-            <h4>{elemento.precio}</h4>
-            <h4>Cantidad: {elemento.quantity}</h4>
+      {!mostrarFinalizarCompra ? (
+        cart.length < 0 ? (
+          <div>
+            {cart.map((elemento) => {
+              return (
+                <div key={elemento.id}>
+                  <h2>{elemento.nombre}</h2>
+                  <h2>{elemento.marca}</h2>
+                  <h3>{elemento.modelo}</h3>
+                  <img src={elemento.img} alt="" />
+                  <h4>{elemento.precio}</h4>
+                  <h4>Cantidad: {elemento.quantity}</h4>
+                  <div>
+                    <Button onClick={() => borrarProd(elemento.id)}>
+                      Eliminar
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+            <h2>Total del carrito: {total}</h2>
             <div>
-              <Button onClick={() => borrarProd(elemento.id)}>Eliminar</Button>
+              <Button onClick={() => setMostrarFinalizarCompra(true)}>
+                Finalizar la Compra
+              </Button>
+            </div>
+
+            <div>
+              <Button onClick={clear}>Vaciar carrito</Button>
             </div>
           </div>
-        );
-      })}
-      <h2>Total del carrito: {total}</h2>
-      <div>
-        <button onClick={clear}>Vaciar carrito</button>
-      </div>
+        ) : (
+          <div>
+            <img
+              src="https://res.cloudinary.com/dx9cjeuqg/image/upload/v1680378043/undraw_empty_cart_co35_gjb4yy.svg"
+              alt=""
+            />
+          </div>
+        )
+      ) : (
+        <Form
+          cart={cart}
+          obtenerTotalPrecio={obtenerTotalPrecio}
+          limpiarCarrito={limpiarCarrito}
+        />
+      )}
     </div>
   );
 };
