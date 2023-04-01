@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { products } from "../../productsMock";
 import { useParams } from "react-router-dom";
+
 import ItemList from "../ItemList/ItemList";
 import FadeLoader from "react-spinners/FadeLoader";
+
 import styles from "./ItemListContainer.module.css";
 
-import { collection, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
 const override = {
@@ -14,34 +15,35 @@ const override = {
 };
 
 const ItemListContainer = () => {
-  const { id } = useParams();
+  const { category } = useParams();
   const [items, setItems] = useState([]);
 
-  const productosFiltrados = products.filter(
-    (elemento) => elemento.category === id
-  );
-
   useEffect(() => {
-    // const productoLista = new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve(id ? productosFiltrados : products);
-    //   }, 2000);
-    // });
-
-    // productoLista.then((ok) => {
-    //   setItems(ok);
-    // });
-    // productoLista.catch((error) => console.log(error));
     const itemsCollection = collection(db, "products");
-    getDoc(itemsCollection).then((ok) => {
-      let products = ok.docs.map((element) => {
-        return {
-          ...element.data(),
-          id: element.id,
-        };
+
+    if (category) {
+      const qery = query(itemsCollection, where("category", "==", category));
+      getDocs(qery).then((ok) => {
+        let productos = ok.docs.map((producto) => {
+          return {
+            ...producto.data(),
+            id: producto.id,
+          };
+        });
+        setItems(productos);
       });
-    });
-  }, [id]);
+    } else {
+      getDocs(itemsCollection).then((ok) => {
+        let productos = ok.docs.map((producto) => {
+          return {
+            ...producto.data(),
+            id: producto.id,
+          };
+        });
+        setItems(productos);
+      });
+    }
+  }, [category]);
 
   //renderización
 
@@ -64,11 +66,5 @@ const ItemListContainer = () => {
     </div>
   );
 };
-//le paso el array de productos (items) a itemList, donde se mapea cada card
-export default ItemListContainer;
 
-//se importa itemList dentro del return
-//me falta setTimeOut de 2 segundos... ver!
-//con useParams recuperamos la parte dinámica de cada ruta /category
-//en el id va a venir la info que necesitamos, si es lentes de sol o armazon
-//cada vez que cambie el id se va a volver a renderizar el itemlistcontainer
+export default ItemListContainer;
