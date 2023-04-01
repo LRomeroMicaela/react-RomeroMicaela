@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<ItemListContainer />} />
           <Route path="*" element={<h1> Ruta no válida </h1>} />
           <Route path="/item/:id" element={<ItemDetailContainer />} />
-          <Route path="/category/:id" element={<ItemListContainer />} />
+          <Route path="/category/:category" element={<ItemListContainer />} />
           <Route path="/formulario" element={<Form />} />
         </Routes>
       </CartContextProvider>

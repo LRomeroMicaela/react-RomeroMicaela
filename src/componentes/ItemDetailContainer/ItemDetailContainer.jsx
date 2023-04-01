@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../../productsMock";
 
 import ItemCount from "../ItemCount/ItemCount";
 
@@ -13,18 +12,34 @@ import { CardActionArea } from "@mui/material";
 
 import styles from "./ItemDetailContainer.module.css";
 import { CartContext } from "../../Context/CartContext";
-import { PermDeviceInformationOutlined } from "@mui/icons-material";
+
+import { getDoc, collection, doc } from "firebase/firestore";
 
 import Swal from "sweetalert2";
+import { db } from "../../firebaseConfig";
 
 const ItemDetailContainer = () => {
   const { id } = useParams();
 
   const { agregarAlCarrito, getQuantityById } = useContext(CartContext);
 
-  const productoSeleccionado = products.find(
-    (element) => element.id === Number(id)
-  );
+  const [productoSeleccionado, setProductoSeleccionado] = useState({});
+
+  useEffect(() => {
+    const itemCollection = collection(db, "products");
+
+    const referencia = doc(itemCollection, id);
+    getDoc(referencia).then((ok) => {
+      setProductoSeleccionado({
+        ...ok.data(),
+        id: ok.id,
+      });
+    });
+  }, [id]);
+
+  // const productoSeleccionado = products.find(
+  //   (element) => element.id === Number(id)
+  // );
 
   const onAdd = (cantidad) => {
     let producto = {
