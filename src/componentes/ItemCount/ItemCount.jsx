@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+
 import React, { useEffect } from "react";
 
 import { useState } from "react";
@@ -16,7 +18,7 @@ const ItemCount = ({ stock, inicial = 0, onAdd }) => {
     }
   };
   const restar = () => {
-    if (contador > 1) {
+    if (contador > 0) {
       setContador(contador - 1);
     }
   };
@@ -24,16 +26,23 @@ const ItemCount = ({ stock, inicial = 0, onAdd }) => {
   return (
     <div>
       <div className={styles.botonesContador}>
-        <button onClick={sumar} className={styles.boton}>
+        <Button variant="contained" onClick={sumar}>
           +
-        </button>
+        </Button>
+
         <h2>{contador}</h2>
-        <button onClick={restar} className={styles.boton}>
+        <Button variant="contained" onClick={restar}>
           -
-        </button>
+        </Button>
       </div>
       <div className={styles.contador}>
-        <button onClick={() => onAdd(contador)}>Agregar al carrito</button>
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => onAdd(contador)}
+        >
+          Agregar al Carrito
+        </Button>
       </div>
     </div>
   );

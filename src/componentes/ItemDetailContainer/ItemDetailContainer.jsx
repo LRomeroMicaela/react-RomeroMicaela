@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 
 import ItemDetail from "../ItemDetail/ItemDetail";
 
-import styles from "./ItemDetailContainer.module.css";
-
 import { CartContext } from "../../Context/CartContext";
 
 import { getDoc, collection, doc } from "firebase/firestore";
@@ -38,13 +36,17 @@ const ItemDetailContainer = () => {
       quantity: cantidad,
     };
     agregarAlCarrito(producto);
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Producto agregado al carrito correctamente",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    cantidad > 0
+      ? Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Producto agregado al carrito correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      : Swal.fire(
+          "No se agregó correctamente el producto al carrito, vuelva a intentarlo"
+        );
   };
 
   const cantSeleccionada = getQuantityById(Number(id));

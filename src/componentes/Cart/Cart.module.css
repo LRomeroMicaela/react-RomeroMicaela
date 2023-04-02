@@ -1,0 +1,26 @@
+.contenedorTotal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+.botones {
+  display: flex;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+.total {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 1rem;
+}
+
+.boton {
+  margin: 1rem;
+}
+.imagen {
+  margin: 2rem;
+  width: 50%;
+}

@@ -1,0 +1,14 @@
+.contenedor {
+  background: linear-gradient(
+    85deg,
+    rgba(22, 130, 177, 1) 14%,
+    rgba(9, 83, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin-top: 4rem;
+  padding: 1rem;
+  display: block;
+  flex-direction: column;
+}

@@ -12,8 +12,8 @@ import ItemCount from "../ItemCount/ItemCount";
 
 const ItemDetail = ({ productoSeleccionado, onAdd, cantSeleccionada }) => {
   return (
-    <div className={styles.contenedor}>
-      <Card sx={{ maxWidth: 345 }}>
+    <div className={styles.contenedorTotal}>
+      <Card sx={{ maxWidth: 375 }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -26,8 +26,13 @@ const ItemDetail = ({ productoSeleccionado, onAdd, cantSeleccionada }) => {
               {JSON.stringify(productoSeleccionado.nombre)}
             </Typography>
             <Typography variant="h6" color="text.secondary">
-              Descripción: {JSON.stringify(productoSeleccionado.modelo)}{" "}
+              Descripción:
+              {JSON.stringify(productoSeleccionado.modelo)}
+            </Typography>
+            <Typography variant="h6" color="text.secondary">
               {JSON.stringify(productoSeleccionado.marca)}
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
               {" $ "}
               {JSON.stringify(productoSeleccionado.precio)}
             </Typography>

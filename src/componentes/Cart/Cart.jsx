@@ -1,12 +1,19 @@
 import React, { useContext, useState } from "react";
 
 import { Button } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
 
 import { CartContext } from "../../Context/CartContext";
 
 import Form from "../Formulario/Form";
 
 import Swal from "sweetalert2";
+
+import styles from "../Cart/Cart.module.css";
 
 const Cart = () => {
   const { cart, limpiarCarrito, obtenerTotalPrecio, borrarProd } =
@@ -23,7 +30,7 @@ const Cart = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         limpiarCarrito();
-        Swal.fire("Vaciado exitosamente ", " ", "sucess");
+        Swal.fire("Vaciado exitosamente ", " ", "success");
       } else if (result.isDenied) {
         Swal.fire("Cancelado", " ", "error");
       }
@@ -37,39 +44,76 @@ const Cart = () => {
   return (
     <div>
       {!mostrarFinalizarCompra ? (
-        cart.length < 0 ? (
+        cart.length > 0 ? (
           <div>
-            {cart.map((elemento) => {
-              return (
-                <div key={elemento.id}>
-                  <h2>{elemento.nombre}</h2>
-                  <h2>{elemento.marca}</h2>
-                  <h3>{elemento.modelo}</h3>
-                  <img src={elemento.img} alt="" />
-                  <h4>{elemento.precio}</h4>
-                  <h4>Cantidad: {elemento.quantity}</h4>
-                  <div>
-                    <Button onClick={() => borrarProd(elemento.id)}>
-                      Eliminar
-                    </Button>
+            <div>
+              {cart.map((elemento) => {
+                return (
+                  <div key={elemento.id}>
+                    <div className={styles.contenedorTotal}>
+                      <Card sx={{ maxWidth: 375 }}>
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="250"
+                            image={elemento.img}
+                            alt={JSON.stringify(elemento.nombre)}
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
+                            >
+                              {JSON.stringify(elemento.nombre)}
+                            </Typography>
+                            <Typography variant="h6" color="text.secondary">
+                              Descripción:
+                              {JSON.stringify(elemento.modelo)}
+                            </Typography>
+                            <Typography variant="h6" color="text.secondary">
+                              {JSON.stringify(elemento.marca)}
+                            </Typography>
+                            <Typography variant="h5" color="text.secondary">
+                              {" $ "}
+                              {JSON.stringify(elemento.precio)}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <Button
+                          variant="outlined"
+                          onClick={() => borrarProd(elemento.id)}
+                        >
+                          Eliminar
+                        </Button>
+                      </Card>
+                    </div>
                   </div>
+                );
+              })}
+              <div className={styles.botones}>
+                <h2 className={styles.total}>Total del carrito: $ {total}</h2>
+                <div className={styles.boton}>
+                  <Button
+                    variant="contained"
+                    onClick={() => setMostrarFinalizarCompra(true)}
+                  >
+                    Finalizar la Compra
+                  </Button>
                 </div>
-              );
-            })}
-            <h2>Total del carrito: {total}</h2>
-            <div>
-              <Button onClick={() => setMostrarFinalizarCompra(true)}>
-                Finalizar la Compra
-              </Button>
-            </div>
 
-            <div>
-              <Button onClick={clear}>Vaciar carrito</Button>
+                <div>
+                  <Button variant="outlined" onClick={clear}>
+                    Vaciar carrito
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
           <div>
             <img
+              className={styles.imagen}
               src="https://res.cloudinary.com/dx9cjeuqg/image/upload/v1680378043/undraw_empty_cart_co35_gjb4yy.svg"
               alt=""
             />
