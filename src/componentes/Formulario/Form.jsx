@@ -27,10 +27,9 @@ const Form = ({ cart, obtenerTotalPrecio, limpiarCarrito }) => {
     });
     //name es name, email y teléfono, según el que se setee va a ser el que se complete del arreglo
   };
-
   //id COMPRA
   const compraId = () => {
-    userData.length > 0 && ordenId.length > 0 ? (
+    ordenId.length > 0 ? (
       Swal.fire(
         "Su compra ha finalizado con éxito. El número de orden es: " +
           JSON.stringify(ordenId)
@@ -59,7 +58,9 @@ const Form = ({ cart, obtenerTotalPrecio, limpiarCarrito }) => {
 
     cart.map((producto) => {
       let referenciaDoc = doc(db, "products", producto.id);
-      updateDoc(referenciaDoc, { stock: producto.stock - producto.quantity });
+      updateDoc(referenciaDoc, {
+        stock: producto.stock - producto.quantity,
+      });
     });
 
     //Validaciones del formulario
