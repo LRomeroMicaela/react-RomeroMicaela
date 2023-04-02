@@ -30,7 +30,7 @@ const Form = ({ cart, obtenerTotalPrecio, limpiarCarrito }) => {
 
   //id COMPRA
   const compraId = () => {
-    userData.length !== 0 && ordenId.length > 0 ? (
+    userData.length > 0 && ordenId.length > 0 ? (
       Swal.fire(
         "Su compra ha finalizado con éxito. El número de orden es: " +
           JSON.stringify(ordenId)
