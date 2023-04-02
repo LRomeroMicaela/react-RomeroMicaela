@@ -60,7 +60,6 @@ const Form = ({ cart, obtenerTotalPrecio, limpiarCarrito }) => {
     cart.map((producto) => {
       let referenciaDoc = doc(db, "products", producto.id);
       updateDoc(referenciaDoc, { stock: producto.stock - producto.quantity });
-      return;
     });
 
     //Validaciones del formulario
